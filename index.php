@@ -6,14 +6,8 @@ if (!isset($_SESSION['guest'])) {
     $_SESSION['guest'] = array();
 }
 
-if (!isset($_SESSION['simpan_foto'])) {
-    $_SESSION['simpan_foto'] = array();
-}
-
 if ($_POST) {
-    array_push($_SESSION['guest'], $_POST);
 
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
     // handle upload
     $nama_file = $_FILES['photo']['name'];
     $nama_tmp = $_FILES['photo']['tmp_name'];
@@ -22,13 +16,14 @@ if ($_POST) {
     $folder = "uploads/";
     $upload = move_uploaded_file($nama_tmp, $folder . $nama_file);
 
-    $data_foto = ($_POST["photo"] = $folder . $nama_file);
+    $_POST["photo"] = $folder . $nama_file;
 
-    array_push($_SESSION['simpan_foto'], $data_foto);
+    array_push($_SESSION['guest'], $_POST);
+
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
 }
 
 print_r($_SESSION['guest']);
-print_r($_SESSION['simpan_foto']);
 
 ?>
 <!DOCTYPE html>
@@ -75,16 +70,15 @@ print_r($_SESSION['simpan_foto']);
                         <li><?php echo $data["nama_lengkap"]; ?></li>
                         <li><?php echo $data["email_ku"]; ?></li>
                         <li><?php echo $data["pesan_ku"]; ?></li>
+                        <li><?php if ($data["photo"] == "uploads/") { ?>
+                                <img src="uploads/IMG-20211012-WA0008.jpg" alt="">
+                            <?php } else { ?>
+                                <img src="<?php echo $data["photo"]; ?>" alt="">
+                            <?php } ?>
+                        </li>
                     </ul>
                 <?php } ?>
 
-                <?php foreach ($_SESSION['simpan_foto'] as $foto) { ?>
-                    <?php if ($foto == "uploads/") { ?>
-                        <img src="isi link default foto" alt="">
-                    <?php } else { ?>
-                        <img src="<?= $foto ?>" alt="">
-                    <?php } ?>
-                <?php } ?>
             </div>
         </div>
     </div>
