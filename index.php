@@ -80,7 +80,7 @@ print_r($_SESSION['simpan_foto']);
 
                 <?php foreach ($_SESSION['simpan_foto'] as $foto) { ?>
                     <?php if ($foto == "uploads/") { ?>
-                        <img src="uploads/IMG-20211012-WA0020.jpg" alt="">
+                        <img src="isi link default foto" alt="">
                     <?php } else { ?>
                         <img src="<?= $foto ?>" alt="">
                     <?php } ?>
